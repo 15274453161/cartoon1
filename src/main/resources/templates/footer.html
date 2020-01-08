@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>底部</title>
+   </head>
+
+<body>
+<!--footer-->
+<th:block id="footer">
+
+
+    <div class="foot_app">
+        <div class="left">
+            <div class="img">
+                <img th:src="@{/images/ewm1.png}" /> <img th:src="@{/images/ewm2.png}" />
+            </div>
+        </div>
+        <div class="right">
+            <div class="rl">
+                <img th:src="@{/images/erm3.png}" />
+
+            </div>
+            <div class="rr">
+                <p class="txt">
+                    上下学,上下班的无聊路途给你带来欢乐的唯一APP<br> 现在就下载到手机吧!
+                </p>
+                <div class="f_bottom">
+                    <span class="sl">Andorid</span> <span class="sr">ios</span>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="foot_infor">
+        <ul>
+            <li><a href="">反馈</a></li>
+            <li class="bar">|</li>
+            <li><a href="">条款</a></li>
+            <li class="bar">|</li>
+            <li><a href="">帮助</a></li>
+            <li class="bar">|</li>
+            <li><a href="">个人信息</a></li>
+            <li class="bar">|</li>
+            <li><a href="">公司介绍</a></li>
+        </ul>
+    </div>
+    <div class="footer">
+        <div class="container">
+            <p class="footer-class">
+                Copyright &copy; 2015.Company name All rights reserved.<a
+                    target="_blank" href="http://www.cssmoban.com/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+            </p>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                /*
+                var defaults = {
+                    containerID: 'toTop', // fading element id
+                    containerHoverID: 'toTopHover', // fading element hover id
+                    scrollSpeed: 1200,
+                    easingType: 'linear'
+                };
+                 */
+
+                $().UItoTop({
+                    easingType : 'easeOutQuart'
+                });
+
+            });
+        </script>
+        <a href="#" id="toTop" style="display: block;"> <span
+                id="toTopHover" style="opacity: 1;"> </span></a>
+
+    </div>
+</th:block>
+<!---->
+</body>
+</html>
