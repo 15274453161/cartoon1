@@ -39,6 +39,8 @@ public class EmailUtil {
     private void sendMessage(String receiveEmail,String content){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(emialSend);
+        //加了邮件的抄送人
+        message.setCc(emialSend);
         message.setTo(receiveEmail);
         message.setSubject("来自CloudMusic的邮件");
         message.setText(content);

@@ -5,6 +5,7 @@ import com.qgh.pojo.Comment;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CommentDao {
     /**
@@ -38,4 +39,12 @@ public interface CommentDao {
      * @param zan
      */
     void addZan(@Param("commentId") int commentId,@Param("zan") int zan);
+
+    /**
+     * 分页显示评论
+     * @return
+     */
+    Page<Map<String,Object>> showPage();
+
+    int batchDelCom(int [] ids);
 }

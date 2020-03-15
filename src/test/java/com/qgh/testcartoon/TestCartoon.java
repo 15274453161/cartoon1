@@ -203,7 +203,7 @@ public class TestCartoon {
 
 
     //测试开始往阿里云上传章节图片
- /*@Test
+@Test
     public void upload() {
         //获得漫画章节图片
         List<Section> sections = null;
@@ -235,7 +235,7 @@ public class TestCartoon {
             e.printStackTrace();
         }
 
-    }*/
+    }
 
     /**
      * 新增评论

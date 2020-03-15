@@ -2,6 +2,7 @@ package com.qgh.pojo;
 
 import java.util.Date;
 
+import org.apache.ibatis.type.Alias;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -17,18 +18,19 @@ import lombok.Data;
  * @time 11:05
  */
 @Data
-public class User {
+@Alias("user")
+public class User extends Base{
     //用户 id,用户名、密码、状态、身份、出生年月月日、性别
-    private int id;
+    private Integer id;
     private String userName;
     private String password;
-    private int status;
-    private int identity;
+    private Integer status;
+    private Integer identity;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-   
     private Date day;
-    
     private String birthday;
     private String sex;
     private String vertifyCode;
+
+
 }

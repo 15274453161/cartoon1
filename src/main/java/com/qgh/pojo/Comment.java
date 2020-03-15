@@ -1,6 +1,7 @@
 package com.qgh.pojo;
 
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @time 9:28
  */
 @Data
+@Alias("comment")
 public class Comment {
     private Integer id;
     private String commentTime;

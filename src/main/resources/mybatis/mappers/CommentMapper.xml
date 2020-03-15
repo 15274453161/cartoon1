@@ -36,5 +36,28 @@
     <update id="addZan" >
         update comment set zan=#{zan} where id=#{commentId}
     </update>
+<!--  分页显示评论  返回类型map  字段查询-->
+    <select id="showPage" resultType="map">
+     select c.id as "id",c.comment_time as "commentTime",
+     c.comment_content as "commentContent",c.zan as "zan",
+     c.user_id as "userId", c.chaptor_id as "chaptorId",
+     c.replay as "replay" ,
+     (select u.user_name from user u where u.id=c.user_id) as "userName",
+     (select cp.chaptor_name from chaptor cp where cp.id=c.chaptor_id ) as "chaptorName"
+     from comment c
+     order by c.comment_time desc
+    </select>
+
+<!--    删除评论 foreach-->
+
+    <delete id="batchDelCom" >
+        delete
+        from comment
+        where
+        id in
+        <foreach collection="array" item="comId" separator="," open="(" close=")">
+            #{comId}
+        </foreach>
+    </delete>
 
 </mapper>

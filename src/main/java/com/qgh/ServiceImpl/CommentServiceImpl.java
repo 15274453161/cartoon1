@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @title:
@@ -60,5 +61,30 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void addZan(int commentId, int zan) {
         commentDao.addZan(commentId,zan);
+    }
+
+    /**
+     * 分页显示
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Result showPage(int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+        Page<Map<String,Object>> comPage=commentDao.showPage();
+        System.out.println(comPage);
+        return Result.SUCCESS(comPage,comPage.getPageNum());
+    }
+
+    /**
+     * 批量的删除评论
+     * @param ids
+     * @return
+     */
+    @Override
+    public Result batchDelCom(int [] ids) {
+        commentDao.batchDelCom(ids);
+        return Result.SUCCESS("删除成功");
     }
 }

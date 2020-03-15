@@ -20,15 +20,20 @@ spring:
     #邮箱配置
   mail:
     host: smtp.163.com
-    username: 18229119068@163.com
-    password: q473721601
+    username: 15274453161@163.com
+    password: Guang123456
     properties:
       smtp:
         auth: true
         starttls:
           enable: true
           required: true
-#  #配置页面
+  #
+  thymeleaf:
+    cache: false
+#  resources:
+#    static-locations: classpath:/templates/X-admin/
+
 #  thymeleaf:
 #    prefix: classpath:/templates/
 #    suffix: .html
@@ -54,7 +59,7 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
-
+#沙箱支付配置
 alipay:
   gatewayUrl: https://openapi.alipaydev.com/gateway.do
   appid: 2016101700704179
@@ -62,6 +67,7 @@ alipay:
   alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4KzYHU1kb8m/C1NNhF0WARszPp9UCUP3+P1NDI8+y5I+C8l1254kWdBpaefo3N71L/gtX2WYlfAbsJKYeDHSQMVtV3Nudo6JxEYK4B3vno/+uYytcG9+j4iYyiSAXgUu03lHZOUpD8iVH0kQCf9Xj4LybWu3f+xTt+Blkzr9gl9fO8Wl1SbRK1knl1B7x9gphSFOzMMTn6DB4QIwNTpV3t19sclGi4is1Yk562qXuQfSfec0XlLqHi9WlJi0hW1ow+FfnXX+PaHEpBv8JHxhXEwTK8M6a2XoeCustFo3Noa3HAymxl9DncVVCN4KGP1IWMYMN2IWhXBB4qrP2QSQmwIDAQAB
   returnUrl: http://localhost:8090/alipay-callback-return-sult   #支付成功跳转的商家url
   notifyUrl: http://localhost:8090/enter_chager       #异常跳转页面#SIGN_TYPE=RSA2
+
 
 
 

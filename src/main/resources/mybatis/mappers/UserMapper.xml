@@ -9,8 +9,8 @@
     <insert id="addUser" parameterType="com.qgh.pojo.User">
         insert into user(user_name,password,birthday,sex) values (#{userName},#{password},#{birthday},#{sex})
     </insert>
-    
-     <select id="login" resultType="com.qgh.pojo.User">
+
+    <select id="login" resultType="com.qgh.pojo.User">
         select * from user where user_name=#{userName} And password=#{password}
     </select>
 
@@ -22,4 +22,31 @@
         where
         id=#{id}
     </update>
+
+    <!--查询所有用户 分页查询-->
+    <select id="showAllUser" resultType="user">
+           select * from user
+    </select>
+    <!--根据用户米查找用户-->
+    <select id="queryUserByUserName" resultType="user">
+       select * from user
+       where user_name=#{userEmail};
+   </select>
+
+    <update id="updateUser" parameterType="user">
+        update user
+       <set>
+        <if test="userName!=null and userName!=''">user_name=#{userName},</if>
+        <if test="birthday!=null and birthday!=''">birthday=#{birthday},</if>
+        <if test="sex!=null and sex!=''">sex=#{sex},</if>
+        identity=#{identity}
+       </set>
+        where id=#{id}
+    </update>
+    <delete id="delUser">
+        delete
+        from user
+        where
+        id=#{id}
+    </delete>
 </mapper>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html class="x-admin-sm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+<!--        <form class="layui-form" th:action="@{/admin/editUser}" method="post">-->
+            <div class="layui-form-item">
+                <label for="username" class="layui-form-label">
+                    <span class="x-red">*</span>邮箱
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="username" name="userName" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input" th:value="${editUser.userName}">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>将会成为您唯一的登入名
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="start" class="layui-form-label">
+                    <span class="x-red">*</span>出生日期
+                </label>
+                <div class="layui-input-inline">
+                    <div class="layui-inline layui-show-xs-block">
+                        <input class="layui-input" autocomplete="off" placeholder="出生日期" name="birthday"
+                               id="start" th:value="${editUser.birthday}">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="layui-form-item">
+                <label for="sex" class="layui-form-label">
+                    <span class="x-red">*</span>性别
+                </label>
+                <div class="layui-input-block">
+                    <input id="sex" type="radio" name="sex" value="m" th:checked="${editUser.sex} eq 'm'" title="♂男">&nbsp;&nbsp;♂男
+                    <input type="radio" name="sex" value="f" title="♀女" th:checked="${editUser.sex} eq 'f'">&nbsp;&nbsp;♀女
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>角色</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="identity" lay-skin="primary" title="超级管理员"
+                           th:checked="${editUser.identity==1}" th:value="1">&nbsp;&nbsp;超级管理员
+                    <input type="radio" name="identity" lay-skin="primary" title="普通用户"
+                           th:checked="${editUser.identity==0}" th:value="0">&nbsp;&nbsp;普通用户
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <input type="hidden" th:value="${editUser.id}" name="id" id="id">
+                <button class="layui-btn" lay-filter="add" lay-submit="">编辑</button>
+            </div>
+
+    </div>
+</div>
+
+
+<script>
+
+    layui.use(['laydate', 'form'], function () {
+        var laydate = layui.laydate;
+        var form = layui.form;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+
+        // //监听提交
+        // form.on('submit(add)',
+        //     function (data) {
+        //         //发异步，把数据提交给php
+        //         layer.alert("增加成功", {
+        //                 icon: 6
+        //             },
+        //             function () {
+        //                 // 获得frame索引
+        //
+        //                 var index = parent.layer.getFrameIndex(window.name);
+        //                 //关闭当前frame
+        //                 parent.layer.close(index);
+        //             });
+        //         form.submit();
+        //         return false;
+        //
+        //     });
+    });
+
+     //ajax提交走后台
+     $(".layui-btn").click(function () {
+         var userName = $('#username').val();
+         var sex = $("input[name='sex']:checked").val();
+         var birthday = $('#start').val();
+         var identity = $("input[name='identity']:checked").val();
+         var id = $('#id').val();
+         $.ajax({
+             url: "/admin/editUser",
+             async: false,
+             data: {
+                 userName: userName,
+                 sex: sex,
+                 birthday: birthday,
+                 identity: identity,
+                 id: id
+             },
+             success: function (data) {
+                 console.log(data);
+                 xadmin.close();
+                 //这个相当于全局刷新了
+
+                 layer.msg("修改成功");
+                 layer.alert("增加成功");
+                 alert("修改成功");
+                 xadmin.father_reload();
+             }
+         });
+     })
+
+</script>
+</body>
+
+</html>

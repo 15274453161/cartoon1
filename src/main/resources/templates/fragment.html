@@ -1,0 +1,155 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <!--放置css，等资源，head-->
+    <th:block id="head">
+        <link rel="stylesheet"  th:href="@{/css/font.css}">
+        <link rel="stylesheet"  th:href="@{/css/xadmin.css}">
+    </th:block>
+
+    <!--头部-->
+    <th:block id="top">
+        <div class="container">
+            <div class="logo">
+                <a href="/admin">webtoon后台管理</a></div>
+            <div class="left_open">
+                <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
+            </div>
+            <ul class="layui-nav left fast-add" lay-filter="">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">+新增</a>
+                    <dl class="layui-nav-child">
+                        <!-- 二级菜单 -->
+                        <dd>
+                            <a onclick="xadmin.open('最大化','http://www.baidu.com','','',true)">
+                                <i class="iconfont">&#xe6a2;</i>弹出最大化</a></dd>
+                        <dd>
+                            <a onclick="xadmin.open('弹出自动宽高','http://www.baidu.com')">
+                                <i class="iconfont">&#xe6a8;</i>弹出自动宽高</a></dd>
+                        <dd>
+                            <a onclick="xadmin.open('弹出指定宽高','http://www.baidu.com',500,300)">
+                                <i class="iconfont">&#xe6a8;</i>弹出指定宽高</a></dd>
+                        <dd>
+                            <a onclick="xadmin.add_tab('在tab打开','member-list.html')">
+                                <i class="iconfont">&#xe6b8;</i>在tab打开</a></dd>
+                        <dd>
+                            <a onclick="xadmin.add_tab('在tab打开刷新','member-del.html',true)">
+                                <i class="iconfont">&#xe6b8;</i>在tab打开刷新</a></dd>
+                    </dl>
+                </li>
+            </ul>
+            <ul class="layui-nav right" lay-filter="">
+<!--                <span th:text="${admin.userEmail}" style="display: none"></span>-->
+                <li class="layui-nav-item">
+                    <a href="javascript:;" > <img  style="width: 30px;">
+                    admin</a>
+                    <dl class="layui-nav-child">
+                        <!-- 二级菜单 -->
+                        <dd>
+                            <a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a></dd>
+                        <dd>
+                            <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
+                        <dd>
+                            <a th:href="@{/admin/loginOut}">退出</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item to-index">
+                    <a href="/index">前台首页</a></li>
+            </ul>
+        </div>
+    </th:block>
+
+    <!--尾部，放置js资源-->
+    <th:block id="foot">
+        <script type="text/javascript"  charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+        <script type="text/javascript"  th:src="@{/js/xadmin.js}"></script>
+        <script th:src="@{/js/jquery.min.js}"></script>
+       <!-- <script src="https://cdn.bootcss.com/jquery/3.4.1/core.js"></script>-->
+    </th:block>
+
+    <!--左侧边栏-->
+    <th:block id="nava">
+        <div class="left-nav">
+            <div id="side-nav">
+                <ul id="nav">
+
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="用户管理">&#xe723;</i>
+                            <cite>用户管理</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a th:href="@{/admin/queryUser/(pageNo=1,pageSize=10)}">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>用户列表</cite></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="管理员管理">&#xe726;</i>
+                            <cite>评论管理</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a  th:href="@{/admin/queryAll/(pageNo=1,pageSize=10)}">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>评论列表</cite></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="分类管理">&#xe723;</i>
+                            <cite>分类管理</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="/admin/classification">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>多级分类</cite></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="城市联动">&#xe723;</i>
+                            <cite>歌曲管理</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="/admin/song">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>歌曲管理</cite></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="管理员管理">&#xe726;</i>
+                            <cite>歌手管理</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="/admin/singerIndex">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>歌手列表</cite></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li">&#xe6ce;</i>
+                            <cite>mv管理</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="/admin/mvIndex">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>mv列表</cite></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </th:block>

@@ -42,4 +42,7 @@ public interface CommentService {
      * @param zan
      */
     void addZan( int commentId,  int zan);
+
+    Result showPage(int pageNo,int PageSize);
+    Result batchDelCom(int [] ids);
 }

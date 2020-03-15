@@ -1,5 +1,7 @@
 package com.qgh.ServiceImpl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.qgh.dao.UserDao;
 import com.qgh.pojo.User;
 import com.qgh.service.UserService;
@@ -9,6 +11,7 @@ import com.qgh.util.result.Result;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidParameterException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
     /**
      * 检查是否存在此用户
-     * @param eamil
+     * @param user
      * @return
      */
     public String register(User user) {
@@ -115,5 +118,50 @@ public class UserServiceImpl implements UserService {
 
 		userDao.setStatus(id,status);
 	}
-	
+
+	/**
+	 * 查询所有的用户
+	 * @return
+	 */
+
+	public Result showAllUser(int pageNo,int pageSize) {
+		PageHelper.startPage(pageNo,pageSize);
+		Page<List<User>> userListPage=userDao.showAllUser();
+		System.out.println("pageNum  "+userListPage.getPageNum());
+		return Result.SUCCESS(userListPage.getResult(),userListPage.getPageNum());
+	}
+
+	/**
+	 * 根据用户米查询用户
+	 * @param userEmail
+	 * @return
+	 */
+	@Override
+	public Result queryUserByUserName(String userEmail) {
+		User user=  userDao.queryUserByUserName(userEmail);
+		return Result.SUCCESS(user);
+
+	}
+
+	/**
+	 * 修改用户信息
+	 * @param user
+	 * @return
+	 */
+	@Override
+	public Result updateUser(User user) {
+		int count=userDao.updateUser(user);
+		return Result.SUCCESS(count);
+	}
+
+	/**
+	 * 删除用户通过id
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public Result delUser(int id) {
+		return Result.SUCCESS(userDao.delUser(id));
+	}
+
 }
