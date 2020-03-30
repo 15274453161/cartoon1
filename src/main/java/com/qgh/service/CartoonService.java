@@ -1,6 +1,7 @@
 package com.qgh.service;
 
 
+import com.github.pagehelper.Page;
 import com.qgh.pojo.Cartoon;
 import com.qgh.util.result.Result;
 import org.apache.ibatis.annotations.Param;
@@ -34,4 +35,19 @@ public interface CartoonService {
     Result searchByWeekId();
 
     Result searchByWeekIdEight(int weekId);
+
+    /**
+     * 分页查询所有漫画
+     * @param pageNo
+     * @param PageSize
+     * @return
+     */
+   Result queryAllByPage(int pageNo,int PageSize);
+
+    /**
+     * 根据漫画id查询漫画
+     * @param cartoonId
+     * @return
+     */
+    Result queryAllByCartoonId(Integer cartoonId);
 }

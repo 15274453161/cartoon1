@@ -1,5 +1,6 @@
 package com.qgh.dao;
 
+import com.github.pagehelper.Page;
 import com.qgh.pojo.Cartoon;
 import com.qgh.util.result.Result;
 import org.apache.ibatis.annotations.Param;
@@ -84,4 +85,16 @@ public interface CartoonDao {
      */
     List<Cartoon> searchByCyId(int cyId);
 
+    /**
+     * 分页查询所有漫画
+     * @return
+     */
+    Page<List<Cartoon>> queryAllByPage();
+
+    /**
+     * 根据漫画Id查询漫画
+     * @param cartoonId
+     * @return
+     */
+    Cartoon queryByCartoonId(Integer cartoonId);
 }

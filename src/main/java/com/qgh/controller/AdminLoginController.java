@@ -55,7 +55,8 @@ public class AdminLoginController {
             //System.out.println(result+" :=lll");
             if (result!=null&&result.getMsg()!=null&&((User)result.getMsg()).getIdentity()==1){
                 //2、将登陆信息存入session
-                session.setAttribute("userInfor",result.getMsg());
+                session.setAttribute("userInfor",(User)result.getMsg());
+                System.out.println("登录信息3/22==  "+(User)result.getMsg());
                 session.setMaxInactiveInterval(60*60);
                 //3、将用户登录状况信息返回前端 方便弹出提示信息
                 model.addAttribute("code",result.getCode());
@@ -106,29 +107,24 @@ public class AdminLoginController {
     @RequestMapping("/queryUser")
     public String queryUser(Model model,@RequestParam("pageNo") int pageNo,@RequestParam("pageSize")int pageSize){
         userInfor(model,pageNo,pageSize);
+
         return "userList";
     }
 
     /**
-     *
      * @param model
      * @param pageNo 当前页码
      * @param pageSize  一页显示多少条数据
      */
     public void userInfor(Model model,int pageNo,int pageSize){
-
         try {
             Result result=userServiceImpl.showAllUser(pageNo,pageSize);
-            System.out.println(result);
             model.addAttribute("userList",result);
-
         } catch (Exception e) {
             logger.error("查看用户信息错误");
             e.printStackTrace();
         }
-
     }
-
     /**
      * 根据编辑的用户的id查询出其信息
      * @param userEmail 是唯一

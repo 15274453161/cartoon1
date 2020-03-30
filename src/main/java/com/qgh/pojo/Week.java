@@ -1,6 +1,7 @@
 package com.qgh.pojo;
 
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 /**
  * @title:
@@ -11,6 +12,7 @@ import lombok.Data;
  * @time 21:04
  */
 @Data
+@Alias("week")
 public class Week {
     //周日 id 名字
     private int id;

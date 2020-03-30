@@ -1,5 +1,7 @@
 package com.qgh.ServiceImpl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.qgh.dao.CartoonDao;
 import com.qgh.pojo.Cartoon;
 import com.qgh.pojo.Week;
@@ -87,6 +89,29 @@ public class CartoonServiceImpl implements CartoonService {
     @Override
     public Result searchByWeekIdEight(int weekId) {
         return Result.SUCCESS(cartoonDao.searchByWeekIdEight(weekId));
+    }
+
+    /**
+     * 分页查询所有漫画
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Result queryAllByPage(int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+        Page<List<Cartoon>> cartoonPage=cartoonDao.queryAllByPage();
+        return Result.SUCCESS(cartoonPage.getResult(),cartoonPage.getPageNum());
+    }
+
+    /**
+     * 根据漫画id查询漫画
+     * @param cartoonId
+     * @return
+     */
+    @Override
+    public Result queryAllByCartoonId(Integer cartoonId) {
+        return Result.SUCCESS(cartoonDao.queryByCartoonId(cartoonId));
     }
 
 

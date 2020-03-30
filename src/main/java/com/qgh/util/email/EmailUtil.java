@@ -52,7 +52,6 @@ public class EmailUtil {
             }
         }).start();
     }
-
     /**
      * 发送验证码邮件并将验证码存入缓存
      * @param receiveEmail

@@ -51,16 +51,14 @@ public class RegisterController {
 	public String register(@RequestBody User user) {
 
 		String codeString = emailUtil.getVertifyCode();
-		System.out.println("缓存中的验证码：" + codeString);
+		/*System.out.println("缓存中的验证码：" + codeString);
 		System.out.println("前端的验证码 " + user.getVertifyCode());
 		System.out.println("前端的面密码" + user.getPassword());
-		System.out.println("前端的日期" + user.getBirthday());
-
+		System.out.println("前端的日期" + user.getBirthday());*/
 		if (!user.getVertifyCode().equals(codeString)) {
             //验证码正确开始检验是否已经注册
 			 return "验证码错误";
-		} 
-		
+		}
 		return userService.register(user);
 	}
 }

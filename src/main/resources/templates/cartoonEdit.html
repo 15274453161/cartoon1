@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html class="x-admin-sm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <!-- <script src="https://www.jq22.com/jquery/jquery-3.3.1.js"></script>-->
+
+    <style>
+        select {
+            padding: 3px 5px;
+        }
+
+        #btn {
+            width: 120px;
+            height: 45px;
+            background: #39f;
+            line-height: 45px;
+            text-align: center;
+            color: #fff;
+        }
+
+        #btn .file {
+            opacity: 0;
+            position: relative;
+            top: -56px;
+            width: 100%;
+            height: 45px;
+        }
+
+        #filename {
+            font-size: 16px;
+        }
+
+        .layui-form-label {
+            float: left;
+            display: block;
+            padding: 9px 15px;
+            width: 100px;
+            font-weight: 400;
+            line-height: 20px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-fluid">
+    <form action="/admin/cartoon/editCartoon" method="post" enctype="multipart/form-data">
+        <div class="layui-row">
+            <div class="layui-form-item">
+                <label for="ctName" class="layui-form-label">
+                    <span class="x-red">*</span>漫画名称
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="ctName" name="ctName" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input" th:value="${cartoon.ctName}">
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <label for="ctAuthor" class="layui-form-label">
+                    <span class="x-red">*</span>作者
+                </label>
+                <div class="layui-input-inline">
+                    <div class="layui-inline layui-show-xs-block">
+                        <input class="layui-input" autocomplete="off" placeholder="作者" name="ctAuthor"
+                               id="ctAuthor" th:value="${cartoon.ctAuthor}">
+                    </div>
+                </div>
+
+            </div>
+            <!--分类应该出现下拉框-->
+            <div class="layui-form-item">
+                <label for="fl" class="layui-form-label">
+                    <span class="x-red">*</span>分类
+                </label>
+                <div class="layui-input-inline">
+                    <div class="layui-inline layui-show-xs-block">
+                        <select id="fl" name="cyName">
+                            <th:block th:each="classify,iterStat:${cartoon.classify}">
+                                <option th:text="${classify.cyName}" th:value="${classify.id}" name="cyName"/>
+                            </th:block>
+
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--更新应该出现下拉框-->
+            <div class="layui-form-item">
+                <label for="gx" class="layui-form-label">
+                    <span class="x-red">*</span>更新日期
+                </label>
+                <div class="layui-input-inline">
+                    <div class="layui-inline layui-show-xs-block">
+                        <select id="gx" name="wkName">
+                            <th:block th:each="week,iterStat:${cartoon.week}">
+                                <option th:text="${week.wkName}" th:value="${week.id}" name="wkName"/>
+                            </th:block>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!--连载状态-->
+            <div class="layui-form-item">
+                <label for="ctStatus" class="layui-form-label">
+                    <span class="x-red">*</span>状态
+                </label>
+                <div class="layui-input-inline">
+                    <div class="layui-inline layui-show-xs-block">
+                        <select id="ctStatus" name="state">
+                            <option th:text="${cartoon.state eq '1'}?'连载':'完结'" th:value="${cartoon.state}"
+                            / >
+                            <option th:text="${cartoon.state eq '0'}?'连载':'完结'"
+                                    th:value="${cartoon.state eq '0'}?'1':'0'"/>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+<!--提交-->
+            <div class="layui-form-item">
+                <input type="hidden" th:value="${cartoon.id}" name="id" id="id">
+                <button class="layui-btn bj_btn" lay-filter="add" lay-submit="">编辑</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+<script>
+
+    layui.use(['laydate', 'form'], function () {
+        var laydate = layui.laydate;
+        var form = layui.form;
+    });
+    //ajax提交走后台
+    $(".bj_btn").click(function () {
+        var ctName = $('#ctName').val();
+        var ctAuthor = $('#ctAuthor').val();
+        var cyName = $("#fl option:selected").val();
+        var wkName = $("#gx option:selected").val();
+        var state = $("#ctStatus option:selected").val();
+        $.ajax({
+            type: "post",
+            url: "/admin/cartoon/editCartoon",
+            async: false,
+            data: {
+                ctName: ctName,
+                ctAuthor: ctAuthor,
+                cyName: cyName,
+                wkName: wkName,
+                state: state
+            },
+            success: function (data) {
+                console.log(data);
+                xadmin.close();
+                //这个相当于全局刷新了
+                layer.msg("修改成功");
+                layer.alert("修改成功");
+                alert("修改成功");
+                xadmin.father_reload();
+            },
+            error: function () {
+
+            }
+        });
+    })
+
+</script>
+<script>
+    function daojishi() {
+        setInterval("getname()", 1000);
+    }
+</script>
+
+<!-- 获取文件名 -->
+<script>
+    function getname() {
+        var filename = $("#btn input").val();
+        $("#filename").text(filename);
+    }
+</script>
+</body>
+
+</html>

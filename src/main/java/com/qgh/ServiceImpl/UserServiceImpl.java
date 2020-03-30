@@ -28,140 +28,135 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
+
     @Override
     public User isexist(String email) {
-    	//userDao.isexist(email);
+        //userDao.isexist(email);
         return userDao.isexist(email);
     }
+
     /**
      * 检查是否存在此用户
+     *
      * @param user
      * @return
      */
     public String register(User user) {
-      User user1=	isexist(user.getUserName());
-      if (user1!=null) {
-		return "此用户已经存在";
-	   }
-      //开始进行密码加密
-      String plusPassword;
-      try {
-    	  plusPassword=EncryptionUtil.dealPassword(user.getPassword());
-    	  System.err.println("加密后的密码:"+plusPassword);
-    	  user.setPassword(plusPassword);
-    	  addUser(user);
-    	  //开始插入数据到数据库
-	} catch (UnsupportedEncodingException e) {
-
-		e.printStackTrace();
-	}
-      return "注册成功";
+        User user1 = isexist(user.getUserName());
+        if (user1 != null) {
+            return "此用户已经存在";
+        }
+        //开始进行密码加密
+        String plusPassword;
+        try {
+            plusPassword = EncryptionUtil.dealPassword(user.getPassword());
+            System.err.println("加密后的密码:" + plusPassword);
+            user.setPassword(plusPassword);
+            addUser(user);
+            //开始插入数据到数据库
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return "注册成功";
     }
-    
-    
-	@Override
-	public void addUser(User user) {
-		userDao.addUser(user);
-	}
-	
-	
-	/**
-	 * 登录时判断用户密码和用户名是否正确
-	 */
-	@Override
-	public Result login(String userName, String password) {
 
-		/**
-		 * 解密的过程就是要将加密的密码查询出来获得盐值
-		 */
 
-		User user0=userDao.isexist(userName);
+    @Override
+    public void addUser(User user) {
+        userDao.addUser(user);
+    }
 
-		if(user0==null) {
-			System.out.println("不存在此用户，请先注册");
-			return new Result("不存在此用户，请先注册",null);
-		}
 
-		String LessPassword;
-		try {
-			 LessPassword= EncryptionUtil.dealPasswordWithSalt(password,EncryptionUtil.getSalt(user0.getPassword()));
-		    
-			 if(!LessPassword.equals(user0.getPassword())) {
-				 System.out.println("用户密码错误");
-				 return new Result("用户密码错误",null);
-				
-			 }
-		} catch (InvalidParameterException e) {
+    /**
+     * 登录时判断用户密码和用户名是否正确
+     */
+    @Override
+    public Result login(String userName, String password) {
+        /**
+         * 解密的过程就是要将加密的密码查询出来获得盐值
+         */
+        User user0 = userDao.isexist(userName);
+        if (user0 == null) {
+            System.out.println("不存在此用户，请先注册");
+            return new Result("不存在此用户，请先注册", null);
+        }
+        String LessPassword;
+        try {
+            LessPassword = EncryptionUtil.dealPasswordWithSalt(password, EncryptionUtil.getSalt(user0.getPassword()));
+            if (!LessPassword.equals(user0.getPassword())) {
+                System.out.println("用户密码错误");
+                return new Result("用户密码错误", null);
+            }
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        //在用户不存在和密码错误之后进行
+        if (user0.getStatus() == 1) {
+            System.out.println("您已经登录");
+            return new Result("您已经登录，请不要重复登录", user0);
+        }
+        //登录成功将用户的状态为值位1
+        setStatus(user0.getId(), 1);
+        return new Result("登录成功", user0);
+    }
 
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
+    /**
+     * 更新用户的用户的状态位
+     */
+    @Override
+    public void setStatus(int id, int status) {
+        userDao.setStatus(id, status);
+    }
 
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
+    /**
+     * 查询所有的用户
+     *
+     * @return
+     */
 
-			e.printStackTrace();
-		}
-       //在用户不存在和密码错误之后进行
-		if(user0.getStatus()==1){
-			System.out.println("您已经登录");
-			return new Result("您已经登录，请不要重复登录",user0);
-		}
-		 //登录成功将用户的状态为值位1
-		 setStatus(user0.getId(),1);
-	     return new Result("登录成功",user0);
-	}
-	/**
-	 * 更新用户的用户的状态位
-	 */
-	@Override
-	public void setStatus(int id,int status) {
+    public Result showAllUser(int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        Page<List<User>> userListPage = userDao.showAllUser();
+        System.out.println("pageNum  " + userListPage.getPageNum());
+        return Result.SUCCESS(userListPage.getResult(), userListPage.getPageNum());
+    }
 
-		userDao.setStatus(id,status);
-	}
+    /**
+     * 根据用户米查询用户
+     *
+     * @param userEmail
+     * @return
+     */
+    @Override
+    public Result queryUserByUserName(String userEmail) {
+        User user = userDao.queryUserByUserName(userEmail);
+        return Result.SUCCESS(user);
+    }
 
-	/**
-	 * 查询所有的用户
-	 * @return
-	 */
+    /**
+     * 修改用户信息
+     *
+     * @param user
+     * @return
+     */
+    @Override
+    public Result updateUser(User user) {
+        int count = userDao.updateUser(user);
+        return Result.SUCCESS(count);
+    }
 
-	public Result showAllUser(int pageNo,int pageSize) {
-		PageHelper.startPage(pageNo,pageSize);
-		Page<List<User>> userListPage=userDao.showAllUser();
-		System.out.println("pageNum  "+userListPage.getPageNum());
-		return Result.SUCCESS(userListPage.getResult(),userListPage.getPageNum());
-	}
-
-	/**
-	 * 根据用户米查询用户
-	 * @param userEmail
-	 * @return
-	 */
-	@Override
-	public Result queryUserByUserName(String userEmail) {
-		User user=  userDao.queryUserByUserName(userEmail);
-		return Result.SUCCESS(user);
-
-	}
-
-	/**
-	 * 修改用户信息
-	 * @param user
-	 * @return
-	 */
-	@Override
-	public Result updateUser(User user) {
-		int count=userDao.updateUser(user);
-		return Result.SUCCESS(count);
-	}
-
-	/**
-	 * 删除用户通过id
-	 * @param id
-	 * @return
-	 */
-	@Override
-	public Result delUser(int id) {
-		return Result.SUCCESS(userDao.delUser(id));
-	}
-
+    /**
+     * 删除用户通过id
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Result delUser(int id) {
+        return Result.SUCCESS(userDao.delUser(id));
+    }
 }

@@ -44,8 +44,6 @@ public class OssUtil2 {
     public static OSSClient getOSSClient(){
         return new OSSClient(ENDPOINT,ACCESS_KEY_ID, ACCESS_KEY_SECRET);
     }
-
-
     /**
      * 创建存储空间
      * @param ossClient OSS连接
@@ -63,7 +61,6 @@ public class OssUtil2 {
         }
         return bucketNames;
     }
-
     /**
      * 删除存储空间buckName
      * @param ossClient oss对象

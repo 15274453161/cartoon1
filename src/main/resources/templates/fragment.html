@@ -39,8 +39,9 @@
             <ul class="layui-nav right" lay-filter="">
 <!--                <span th:text="${admin.userEmail}" style="display: none"></span>-->
                 <li class="layui-nav-item">
-                    <a href="javascript:;" > <img  style="width: 30px;">
-                    admin</a>
+                    <a href="javascript:;"> <img  style="width: 30px;" >
+                        <span th:text="${userId}"/>
+                    </a>
                     <dl class="layui-nav-child">
                         <!-- 二级菜单 -->
                         <dd>
@@ -99,14 +100,14 @@
                     </li>
                     <li>
                         <a href="javascript:;">
-                            <i class="iconfont left-nav-li" lay-tips="分类管理">&#xe723;</i>
-                            <cite>分类管理</cite>
+                            <i class="iconfont left-nav-li" lay-tips="漫画管理">&#xe723;</i>
+                            <cite>漫画管理</cite>
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a href="/admin/classification">
+                                <a th:href="@{/admin/cartoon/queryAll/(pageNo=1,pageSize=10)}">
                                     <i class="iconfont">&#xe6a7;</i>
-                                    <cite>多级分类</cite></a>
+                                    <cite>漫画列表</cite></a>
                             </li>
                         </ul>
                     </li>

@@ -29,10 +29,8 @@ public class CommentContrller {
     private DateFormat dateFormat;
     @RequestMapping("/showAllComment")
     public String showAllComment(){
-
         return "section";
     }
-
     /**
      * 发布评论
      * @param content
@@ -48,15 +46,12 @@ public class CommentContrller {
         comment.setReplay(replay);
         comment.setCommentContent(content);
         commentService.insertComment(comment);
-
         Result comL= commentService.showAll(chaptorId,1);
         return (List<Comment>)comL.getMsg();
     }
-
     @RequestMapping("/commentZan")
     @ResponseBody
     public String commentZan(Integer commentId,Integer zanNum){
-
         commentService.addZan(commentId,zanNum);
         return "";
     }
@@ -73,7 +68,6 @@ public class CommentContrller {
         showAll(model,pageNo,pageSize);
         return "comment";
     }
-
     /**
      * 显示评论 分页显示
      * @param model
@@ -84,7 +78,6 @@ public class CommentContrller {
       Result result= commentService.showPage(pageNo,pageSize);
       model.addAttribute("commentList",result.getMsg());
     }
-
     /**
      * 批量删除评论
      * @param commentId

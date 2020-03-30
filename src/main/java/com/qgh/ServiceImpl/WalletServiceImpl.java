@@ -32,20 +32,16 @@ public class WalletServiceImpl implements WalletService {
      */
     @Override
     public Result addWallet(int userId,int dongNum) {
-
         Wallet wallet=new Wallet();
         wallet.setUserId(userId);
         wallet.setDongNum(dongNum);
-
         if (findUserId(userId)==null){
-
             walletDao.addWallet(wallet);
         }else{
             updateWallet(wallet);
         }
         return Result.SUCCESS("成功");
     }
-
     /**
      * 更新用户充值表
      * @param wallet
@@ -54,7 +50,6 @@ public class WalletServiceImpl implements WalletService {
     public void updateWallet(Wallet  wallet) {
         walletDao.updateWallet(wallet);
     }
-
     /**
      * 根据用户id查询此表是否存在此用户
      * @param userId
@@ -64,7 +59,6 @@ public class WalletServiceImpl implements WalletService {
     public Wallet findUserId(int userId) {
       return walletDao.findUserId(userId);
     }
-
     /**
      * 根据用户id查询出当前用户的咚币数量
      * @param userId
@@ -77,7 +71,6 @@ public class WalletServiceImpl implements WalletService {
      }
      return wallet.getDongNum();
     }
-
     /**
      * 用户购买指定章节 每个章节30咚币
      * @param userId
@@ -85,7 +78,6 @@ public class WalletServiceImpl implements WalletService {
      1、将章节id存储到用户会员表的字段中
      2、判断购买用户的咚币是否充足
      3、将购买用户的id存入章节表
-
      */
     public Result payChaptor(int userId,int chaptorId){
         Wallet wallet=findUserId(userId);
@@ -96,6 +88,5 @@ public class WalletServiceImpl implements WalletService {
         }else{
             return Result.FAILURE;
         }
-
     }
 }

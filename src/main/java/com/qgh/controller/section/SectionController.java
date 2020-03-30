@@ -36,18 +36,14 @@ public class SectionController {
     private CartoonServiceImpl cartoonService;
     @Autowired
     private CommentServiceImpl commentService;
-
     @Autowired
     private WalletServiceImpl walletService;
     @Autowired
     private PayRecordServiceImpl payRecordService;
-
     @Autowired
     private UserInfor userInfor;
-   
     @RequestMapping("/section")
     public String show(int chaptorId, int cartoonId, Model model, HttpSession session) {
-
         //根据章节id查询出集合返回
         Result result = sectionService.searchByChartorId(chaptorId);
         //设置漫画章节信息
@@ -64,17 +60,14 @@ public class SectionController {
         model.addAttribute("cartoon", cartoon.getMsg());
         //传入一级父评论
         Result com=commentService.showAll(chaptorId,1);
-        System.out.println(com);
         model.addAttribute("comment",com.getMsg());
         //设置用户信息
         userInfor.user(model,session);
-
         return "section";
     }
 
     /**
      * 翻页上下节
-     *
      * @param cartoonId 漫画id
      * @param chaptorId 漫画章节id
      * @param model
@@ -86,21 +79,15 @@ public class SectionController {
         Result result = chaptorsService.searchByChaptorIdAndCartoonId(chaptorId, cartoonId);
         if (result == null) {
             chaptorId = sectionService.judge(flag, chaptorId);
-
         }
         return show(chaptorId, cartoonId, model,session);
-
     }
-
-
      @RequestMapping("/sendComment")
      @ResponseBody
      public String sendComment(String content){
          System.out.println("发送后台成功"+content);
-
          return "hh";
      }
-
     /**
      * 用户购买指定章节
      * @param chaptorId
@@ -111,17 +98,13 @@ public class SectionController {
      */
     @RequestMapping("/pay_ok")
     public String payOk(int chaptorId, int cartoonId,HttpSession session,Model model){
-
         Result result= walletService.payChaptor(payRecordService.getUserId(session),chaptorId);
-
         if (result.getCode()=="2000"){
             return show(chaptorId, cartoonId, model,session);
         }else{
             model.addAttribute("msgFailer","充值失败");
-
             return "redirect:/chaptor?cartoonId="+cartoonId+"&currentPage=1";
         }
-
     }
 
 }

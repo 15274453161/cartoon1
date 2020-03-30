@@ -8,7 +8,6 @@ spring:
     #面试题 您使用过的数据源 连接池 有哪些 性能的区别如何?
     # c3p0 dpcp druid
     #
-
     type: com.alibaba.druid.pool.DruidDataSource
     #数据库版本比较高  驱动包较低 连接会出问题  不兼容  下面URL后面必须要如果是高版本
     driver-class-name:  com.mysql.cj.jdbc.Driver
@@ -31,6 +30,19 @@ spring:
   #
   thymeleaf:
     cache: false
+  #=============文件上传
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 100MB
+#静态资源对外暴露的访问路径
+file:
+  staticAccessPath: /upload/**
+#文件上传目录
+  uploadFolder: F:\咚漫\图片\cover
+#文件上传结束
+
 #  resources:
 #    static-locations: classpath:/templates/X-admin/
 
@@ -40,8 +52,6 @@ spring:
 #    mode: HTML5
 #    encoding: UTF-8
 
-
-
 mybatis:
   type-aliases-package: com.qgh.pojo #配置包的别名 以后默认别名是类名
   mapper-locations: classpath:/mybatis/mappers/*.xml
@@ -49,9 +59,6 @@ mybatis:
   #开启驼峰映射
   configuration:
     map-underscore-to-camel-case: true
-
-
-
 
 #分页配置
 pagehelper:
@@ -67,6 +74,9 @@ alipay:
   alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4KzYHU1kb8m/C1NNhF0WARszPp9UCUP3+P1NDI8+y5I+C8l1254kWdBpaefo3N71L/gtX2WYlfAbsJKYeDHSQMVtV3Nudo6JxEYK4B3vno/+uYytcG9+j4iYyiSAXgUu03lHZOUpD8iVH0kQCf9Xj4LybWu3f+xTt+Blkzr9gl9fO8Wl1SbRK1knl1B7x9gphSFOzMMTn6DB4QIwNTpV3t19sclGi4is1Yk562qXuQfSfec0XlLqHi9WlJi0hW1ow+FfnXX+PaHEpBv8JHxhXEwTK8M6a2XoeCustFo3Noa3HAymxl9DncVVCN4KGP1IWMYMN2IWhXBB4qrP2QSQmwIDAQAB
   returnUrl: http://localhost:8090/alipay-callback-return-sult   #支付成功跳转的商家url
   notifyUrl: http://localhost:8090/enter_chager       #异常跳转页面#SIGN_TYPE=RSA2
+
+
+
 
 
 
