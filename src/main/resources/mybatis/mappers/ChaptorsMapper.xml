@@ -4,7 +4,7 @@
 
 
     <insert id="insertData" parameterType="com.qgh.pojo.Chaptors">
-        insert into chaptor(chaptor_name,ct_id,update_time,chaptor_url) values (#{chaptorName},#{ctId},#{updateTime},#{chaptorUrl})
+        insert into chaptor(chaptor_name,ct_id,update_time,chaptor_url,pay,bg_music_url) values (#{chaptorName},#{ctId},#{updateTime},#{chaptorUrl},#{pay},#{bgMusicUrl})
     </insert>
     <select id="searchPage" resultType="com.qgh.pojo.Chaptors">
        select * from chaptor where
@@ -42,4 +42,28 @@ order by update_time
       set bg_music_url=#{bgMusicUrl}
       where  id=#{chaptorId}
     </update>
+
+    <!--根据漫画id查询当前漫画的章节信息-->
+    <select id="queryById" resultType="map">
+        select c.id,c.chaptor_name as "chaptorName",c.ct_id as "ctId",
+        (select cn.ct_name from cartoon  cn where cn.id=c.ct_id) as "carName",
+        c.update_time as "updateTime",c.chaptor_url as "chaptorUrl",
+        c.zan_num as "zanNum",c.pay as "pay"
+        from chaptor c
+        <where>
+            c.ct_id=#{id}
+        </where>
+        order by c.update_time desc
+    </select>
+
+
+    <!--根据章节id查询当前漫画的章节信息 -->
+    <select id="queryByName" resultType="Integer">
+        select c.id
+        from chaptor c
+        <where>
+            c.chaptor_name=#{name}
+        </where>
+        order by c.update_time desc
+    </select>
 </mapper>

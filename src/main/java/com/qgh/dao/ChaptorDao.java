@@ -6,6 +6,7 @@ import com.qgh.pojo.Section;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface ChaptorDao {
@@ -43,4 +44,20 @@ public interface ChaptorDao {
     void addPayId(@Param("chaptorId") int chaptorId,@Param("userId")String userId);
 
     void updateBackgroundMusic(@Param("chaptorId") int chaptorId,@Param("bgMusicUrl")String bgMusicUrl);
+
+    /**
+     * 分页查询章节
+     * @param id
+     * @return
+     */
+    Page<List<Chaptors>> queryById(@Param("id") int id);
+
+    /**
+     * 根据章节名称查询id
+     * @param name
+     * @return
+     */
+    Integer queryByName(@Param("name") String name);
+
+
 }

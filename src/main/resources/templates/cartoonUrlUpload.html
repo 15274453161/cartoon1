@@ -95,6 +95,7 @@
     //ajax提交走后台
     $(".layui-btn,bj_btn").click(function () {
         var ctUrl = $("input[name='file']").val();
+        var id=$("#id").val();
         //进行一些校验
         // 判断文件是否为空
         if (ctUrl == "") {
@@ -117,6 +118,7 @@
         var type = "file";
         var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
         formData.append(type, $("input[name='file']")[0].files[0]);
+        formData.append("id",id);
         $.ajax({
             type: "post",
             url: "/admin/cartoon/uploadCarUrl",

@@ -101,6 +101,7 @@ public class CartoonServiceImpl implements CartoonService {
     public Result queryAllByPage(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo,pageSize);
         Page<List<Cartoon>> cartoonPage=cartoonDao.queryAllByPage();
+        System.out.println(cartoonPage);
         return Result.SUCCESS(cartoonPage.getResult(),cartoonPage.getPageNum());
     }
 
@@ -112,6 +113,43 @@ public class CartoonServiceImpl implements CartoonService {
     @Override
     public Result queryAllByCartoonId(Integer cartoonId) {
         return Result.SUCCESS(cartoonDao.queryByCartoonId(cartoonId));
+    }
+
+    /**
+     * 更新漫画
+     * @param cartoon
+     * @return
+     */
+    @Override
+    public Result updateCartoon(Cartoon cartoon) {
+        cartoonDao.updateCartoon(cartoon);
+        return Result.SUCCESS("更新成功");
+    }
+
+    /**
+     * 根据漫画名称、类型、更新日期查询
+     * @param ctName
+     * @param cyName
+     * @param wkName
+     * @return
+     */
+    @Override
+    public Result queryByCartoonNameAndTypeAndUpdate(String ctName, String cyName, String wkName) {
+        PageHelper.startPage(1,10);
+        Page<List<Cartoon>> cartoons=  cartoonDao.queryByCartoonNameAndTypeAndUpdate(ctName,cyName,wkName);
+        return Result.SUCCESS(cartoons.getResult(),cartoons.getPageNum());
+    }
+
+    /**
+     * 不分页查询
+     * @param ctName
+     * @param cyName
+     * @param wkName
+     * @return
+     */
+    public Result queryByCartoonNameAndTypeAndUpdateNoPage(String ctName, String cyName, String wkName) {
+        Page<List<Cartoon>> cartoons=  cartoonDao.queryByCartoonNameAndTypeAndUpdate(ctName,cyName,wkName);
+        return Result.SUCCESS(cartoons.getResult());
     }
 
 

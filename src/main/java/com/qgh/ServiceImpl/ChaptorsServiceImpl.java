@@ -9,6 +9,9 @@ import com.qgh.util.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @title:
  * @ClassName: ChaptorsServiceImpl
@@ -20,12 +23,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChaptorsServiceImpl implements ChaptorsService {
    @Autowired
-   private ChaptorDao chaptorDao;
+    private ChaptorDao chaptorDao;
     @Override
     public void insertData(Chaptors chaptors) {
         chaptorDao.insertData(chaptors);
         System.out.println("插入章节");
     }
+
+
 
     /**
      * 根据漫画id分页显示漫画章节
@@ -80,5 +85,22 @@ public class ChaptorsServiceImpl implements ChaptorsService {
     chaptorDao.updateBackgroundMusic(chaptorId,bgMusicUrl);
     }
 
+    /**
+     * 分页查询章节信息
+     * @param chaptors
+     * @return
+     */
+    @Override
+    public Result queryById(Chaptors chaptors) {
+        PageHelper.startPage(chaptors.getPageNo(),chaptors.getPageSize());
+        Page<List<Chaptors>> lists= chaptorDao.queryById(chaptors.getCtId());
+        System.out.println(lists);
+        return Result.SUCCESS(lists.getResult(),lists.getPageNum());
+    }
+
+    @Override
+    public Integer queryByName(String name) {
+         return   chaptorDao.queryByName(name);
+    }
 
 }

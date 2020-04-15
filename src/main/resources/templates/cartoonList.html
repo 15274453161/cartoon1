@@ -16,26 +16,34 @@
             border: 1px solid #ccc;
             outline: none;
         }
-       /* .layui-table td, .layui-table th {
-           padding: 5px 8px;
-        }
-        .layui-table td, .layui-table th {
-            min-width: 50px;
-        }*/
         .layui-table{
             display: block;
             height: 400px;
-            width: 1000px;
+            width: 920px;
             overflow-y: scroll;
             overflow-x: scroll;
+        }
+        .layui-table td.td-manage {
+            min-width: 100px;
         }
         .sc{
             padding: 3px 5px;
             background-color: #00f05d;
             color: #FFFFFF;
         }
-        a .sc {
+        a .sc,.xq {
             cursor: pointer;
+        }
+        .layui-form{
+            display: inline-block;
+        }
+        #caozuo{
+            width: 150px;
+        }
+        .xq {
+            padding: 3px 5px;
+            background-color: #5FB878;
+            color: #FFFFFF;
         }
     </style>
 </head>
@@ -54,8 +62,8 @@
 <div class="page-content">
     <div class="x-nav">
           <span class="layui-breadcrumb">
-            <a href="javascript;;">用户管理</a>
-            <a href="javascript;;">用户列表</a>
+            <a href="javascript;;">漫画管理</a>
+            <a href="javascript;;">漫画列表</a>
             <a>
               <cite>导航元素</cite></a>
           </span>
@@ -72,6 +80,23 @@
                         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
                         </button>
 
+                        <form class="layui-form layui-col-space5" action="/admin/cartoon/queryByName" method="post">
+                            <div class="layui-inline layui-show-xs-block">
+                                <input type="text" name="cyName" placeholder="请输入漫画类别" autocomplete="off" class="layui-input"></div>
+                            <div class="layui-inline layui-show-xs-block">
+                                <input type="text" name="wkName" placeholder="请输入漫画更新日期" autocomplete="off" class="layui-input"></div>
+                            <div class="layui-inline layui-show-xs-block">
+                                <input type="text" name="ctName" placeholder="请输入漫画名称" autocomplete="off" class="layui-input"></div>
+                            <div class="layui-inline layui-show-xs-block">
+                                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                                    <i class="layui-icon"></i></button>
+                            </div>
+                            <div class="layui-inline layui-show-xs-block">
+                                <button class="layui-btn batchExport"  lay-filter="sreach">
+                                    批量导出</button>
+                            </div>
+                        </form>
+
                     </div>
                     <div class="layui-card-body">
                         <table class="layui-table layui-form">
@@ -87,7 +112,7 @@
                                 <th>更新日期</th>
                                 <th>状态</th>
 
-                                <th>操作</th>
+                                <th><div id="caozuo">操作</div>  </th>
 
                             </thead>
                             <tbody>
@@ -120,19 +145,25 @@
                                        onclick="uploadUrl('/admin/cartoon/uploadUrl',this.getAttribute('data'))">
                                        <span class="sc">上传封面</span>
                                     </a>
+
+                                    <a title="详情" th:data="${cartoon.id}"
+                                       th:href="@{/admin/showChaptor/(id=${cartoon.id},pageNo=1,pageSize=10)}">
+                                        <span class="xq">详情</span>
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
+                    <!--分页-->
                     <div class="layui-card-body ">
-                       <!-- <div class="page">
+                       <div class="page">
                             <div>
-                                <a class="prev" th:href="@{/admin/querycartoon/(pageNo=${cartoonList.pageSize}-1,pageSize=10)}">&lt;&lt;</a>
+                                <a class="prev" th:href="@{/admin/cartoon/queryAll/(pageNo=${cartoonList.pageSize}-1,pageSize=10)}">&lt;&lt;</a>
                                 当前是<span class="current" th:text="${cartoonList.pageSize}"></span>页
-                                <a class="next" th:href="@{/admin/querycartoon/(pageNo=${cartoonList.pageSize}+1,pageSize=10)}">&gt;&gt;</a>
+                                <a class="next" th:href="@{/admin/cartoon/queryAll/(pageNo=${cartoonList.pageSize}+1,pageSize=10)}">&gt;&gt;</a>
                             </div>
-                        </div>-->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -179,8 +210,6 @@
         laydate.render({
             elem: '#end' //指定元素
         });
-
-
     });
 
 
@@ -237,6 +266,53 @@
             })
         });
     }
+</script>
+
+<!--批量导出-->
+<script>
+    //根据筛选条件进行批量的下载
+
+    $(".batchExport").click(function () {
+
+        $(".layui-form").attr("action", "/admin/cartoon/batchExport");
+        $(".layui-form").submit();
+       /* var cyName=$("input[name='cyName']").val();
+        var wkName=$("input[name='wkName']").val();
+        var ctName=$("input[name='ctName']").val();*/
+
+
+
+       /* var data={
+            cyName:cyName,
+            wkName:wkName,
+            ctName:ctName
+        }*/
+
+       // alert(JSON.stringify(data));乱码
+        // var data=JSON.stringify(data)
+      //  var data=JSON2.stringify(data);
+
+        // var data =eval('(' + data + ')');
+      /*  $.ajax({
+            url: "/admin/cartoon/batchExport",
+            type:"POST",
+            async: false,
+            //后端使用了@RequestBody 接受json字符串
+           // contentType:"application/json;charset=utf-8",
+           // dataType : 'json',
+            data: {
+                cyName:cyName,
+                wkName:wkName,
+                ctName:ctName
+            },
+            success: function (data) {
+
+            },
+            error:function () {
+                alert("批量下载失败")
+            }
+        })*/
+    })
 </script>
 
 </body>

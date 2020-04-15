@@ -50,4 +50,15 @@ public interface CartoonService {
      * @return
      */
     Result queryAllByCartoonId(Integer cartoonId);
+
+    /**
+     * 更新漫画
+     * @param cartoon
+     * @return
+     */
+    Result updateCartoon(Cartoon cartoon);
+
+    Result queryByCartoonNameAndTypeAndUpdate(String ctName,String cyName, String wkName);
+
+
 }

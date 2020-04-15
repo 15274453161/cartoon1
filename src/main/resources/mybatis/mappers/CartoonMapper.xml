@@ -94,7 +94,7 @@ else '连载' end) as "state"
 
     <!--根据漫画id查询漫画信息 -->
     <select id="queryByCartoonId" resultMap="cartoonMap">
-        select c.id as "id", c.ct_name as "ctName",c.ct_author as "ctAuthor",
+        select c.id as id, c.ct_name as "ctName",c.ct_author as "ctAuthor",
         c.ct_introduce as "ctIntroduce",c.ct_url as "ctUrl",
         (select cy.cy_name from category cy where c.ct_cy_id=cy.id) as "cyName",
         (select wk.wk_name from week wk where c.ct_wk_id=wk.id) as "wkName",
@@ -109,9 +109,44 @@ else '连载' end) as "state"
     </select>
 <!--一对多级联查询  孩子  注意 colum值必须存在且里面必须要有值-->
     <resultMap id="cartoonMap" type="cartoon">
+        <id column="id" property="id"></id>
         <collection property="classify"  column="id" select="com.qgh.dao.CategoryDao.selectAllCY" ofType="category"></collection>
         <collection property="week" ofType="week" column="id" select="com.qgh.dao.WeekDao.searchAll" ></collection>
     </resultMap>
+
+    <!--根据漫画名称、类型、更新时间查询漫画信息 -->
+    <select id="queryByCartoonNameAndTypeAndUpdate" resultMap="cartoonMap">
+        select c.id as id, c.ct_name as "ctName",c.ct_author as "ctAuthor",
+        c.ct_introduce as "ctIntroduce",c.ct_url as "ctUrl",
+        cy.cy_name as "cyName",
+        wk.wk_name as "wkName",
+        (case when c.ct_state_id=1 then "连载" else "完结" end)  as "state",
+        c.ct_wk_id as "ctWkId",
+        c.ct_cy_id as "ctCyId",
+        c.ct_state_id as "ctStateId"
+        from cartoon c,category cy,week wk
+        <where>
+            <if test="ctName!=null and ctName!=''"> c.ct_name like CONCAT('%',#{ctName},'%') and </if>
+            <if test="cyName!=null and cyName!=''">cy.cy_name=#{cyName} and</if>
+            <if test="wkName!=null and wkName!=''">wk.wk_name=#{wkName} and</if>
+            cy.id=c.ct_cy_id and c.ct_wk_id=wk.id
+        </where>
+    </select>
+
+    <!--修改漫画字段-->
+    <update id="updateCartoon" parameterType="cartoon" >
+        update cartoon c
+        <set>
+            <if test="ctName !=null and ctName!=''">c.ct_name=#{ctName},</if>
+            <if test="ctAuthor !=null and ctAuthor!=''">c.ct_author=#{ctAuthor},</if>
+            <if test="ctIntroduce !=null and ctIntroduce!=''"> c.ct_introduce=#{ctIntroduce},</if>
+            <if test="ctUrl !=null and ctUrl!=''">c.ct_url=#{ctUrl},</if>
+            <if test="ctCyId !=null and ctCyId!=''">c.ct_cy_id=#{ctCyId},</if>
+            <if test="ctWkId !=null and ctWkId!=''">c.ct_wk_id=#{ctWkId},</if>
+            <if test="ctStateId !=null and ctStateId!=''">c.ct_state_id=#{ctStateId}</if>
+        </set>
+        where id=#{id}
+    </update>
 
 
 </mapper>

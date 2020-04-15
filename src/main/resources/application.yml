@@ -41,6 +41,8 @@ file:
   staticAccessPath: /upload/**
 #文件上传目录
   uploadFolder: F:\咚漫\图片\cover
+
+
 #文件上传结束
 
 #  resources:
@@ -76,6 +78,17 @@ alipay:
   notifyUrl: http://localhost:8090/enter_chager       #异常跳转页面#SIGN_TYPE=RSA2
 
 
+#阿里云SDK文件上传服务器
+alisdk:
+  bucketName: qgh123456
+  #漫画封面
+  folder: cartoon_corver/
+  #具体漫画
+  folder-cartoon-root: cartoon_root/
+#mybatis插件SQL语句
+logging:
+  level:
+    com: debug
 
 
 

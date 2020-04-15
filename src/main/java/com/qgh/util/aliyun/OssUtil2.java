@@ -19,7 +19,7 @@ import java.util.Date;
 /**
  * @title:
  * @ClassName: OssUtil2
- * @Description:
+ * @Description:aliyun对象存储
  * @Auther: 秦光泓
  * @date 2019/10/16
  * @time 20:02
@@ -82,6 +82,7 @@ public class OssUtil2 {
     public static String createFolder(OSSClient ossClient,String bucketName,String folder){
 //文件夹名
         final String keySuffixWithSlash =folder;
+
 //判断文件夹是否存在，不存在则创建
         if(!ossClient.doesObjectExist(bucketName, keySuffixWithSlash)){
 //创建文件夹
@@ -211,10 +212,9 @@ public class OssUtil2 {
         String key=folder+fileName;
         OSSClient client = new OSSClient(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
         // 设置URL过期时间为10年
-        Date expiration = new Date(new Date().getTime() + 3600L * 1000 * 24 * 365 * 10*10);
+       Date expiration = new Date(new Date().getTime() + 3600L * 1000 * 24 * 365 * 10*10);
         // 生成URL
         URL url = client.generatePresignedUrl(bucketName, key, expiration);
-
         return url.toString();
     }
 

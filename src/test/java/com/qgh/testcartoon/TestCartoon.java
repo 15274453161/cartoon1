@@ -6,6 +6,7 @@ import com.qgh.ServiceImpl.CommentServiceImpl;
 import com.qgh.ServiceImpl.SectionServiceImpl;
 import com.qgh.ServiceImpl.ThumbUpServiceImp;
 
+import com.qgh.pojo.Chaptors;
 import com.qgh.pojo.Comment;
 import com.qgh.pojo.Section;
 import com.qgh.service.CartoonService;
@@ -19,6 +20,7 @@ import com.qgh.util.jsoup.service.impl.CrawlDZ;
 import com.qgh.util.jsoup.service.impl.CrawlerJinSeLivePressServiceImpl;
 
 
+import com.qgh.util.jsoup.util.ChaptorUtil;
 import com.qgh.util.jsoup.util.CommentUtil;
 import com.qgh.util.jsoup.util.SectionUtil;
 import org.junit.Test;
@@ -159,7 +161,7 @@ public class TestCartoon {
 
    }*/
     //设置漫画封面图片
-   /* @Test
+  /* @Test
     public void setImgUrl(){
       List<String > url=  GetPictureUrl.getTodayTemperatureInfo("F:\\咚漫\\封面2.txt");
 
@@ -169,13 +171,14 @@ public class TestCartoon {
     }*/
 
     //测试爬取漫画章节信息
-    /*@Test
+   /* @Test
     public void getChaptor(){
         try {
-            List<Chaptors>  chaptors=ChaptorUtil.getInfor(new File("F:\\咚漫\\jywx.html"));
+            List<Chaptors>  chaptors= ChaptorUtil.getInfor(new File("F:\\咚漫\\爬虫_html\\恋爱\\火热的冤家\\chaptor1 _catalog.html"));
             //将数据插入到数据库
          for (int i=0;i<chaptors.size();++i){
-              chaptors.get(i).setCtId(7);
+             //设置漫画id
+              chaptors.get(i).setCtId(62);
               chaptorsService.insertData(chaptors.get(i));
           }
         } catch (IOException e) {
@@ -185,7 +188,7 @@ public class TestCartoon {
     //测试爬取漫画章节信息
 
    
-    /*  @Test public void getChaptor()
+    /*@Test public void getChaptor()
       {
       //获取oss对象实例
       OSSClient  ossClient=  OssUtil2.getOSSClient();
@@ -203,20 +206,20 @@ public class TestCartoon {
 
 
     //测试开始往阿里云上传章节图片
-@Test
+  /* @Test
     public void upload() {
         //获得漫画章节图片
         List<Section> sections = null;
         OSSClient ossClient = OssUtil2.getOSSClient();
         try {
             sections = SectionUtil.getInfor(new
-                    File("F:\\咚漫\\咚漫漫画\\H-Mate\\html\\hmate6.html"), 288);
+                    File("F:\\咚漫\\爬虫_html\\恋爱\\火热的冤家\\chaptor1_section.html"), 288);
 
             System.out.println(sections);
             //开始将漫画图片下载到本地
             for (int i = 0; i < sections.size(); ++i) {
-                //下载到本地
-                String pre = "F:\\咚漫\\咚漫漫画\\H-Mate\\外传第8\\";
+                //下载到本地的地址
+                String pre = "F:\\咚漫\\爬虫漫画\\恋爱\\火热的冤家\\chaptor1\\";
                 String fileName = (i + 1) + ".png";
                 String path = pre + fileName;
 
@@ -235,7 +238,7 @@ public class TestCartoon {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     /**
      * 新增评论
@@ -320,7 +323,7 @@ public class TestCartoon {
      * 上传音频到阿里云OSS对象存储
      * 结果：
      */
-    @Test
+   /* @Test
     public void uploadAudio(){
         //1、创建连接对象
         /*OSSClient ossClient = OssUtil2.getOSSClient();
@@ -337,8 +340,8 @@ public class TestCartoon {
         System.out.println("返回音频地址："+url);
         //4、将返回地址存入章节的数据库
 
-        chaptorsService.updateBackgroundMusic(220,url);*/
-    }
+        chaptorsService.updateBackgroundMusic(220,url);
+    }*/
 
     //测试开始往阿里云上传章节图片
    /*@Test

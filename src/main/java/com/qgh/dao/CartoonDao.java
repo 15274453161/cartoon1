@@ -97,4 +97,21 @@ public interface CartoonDao {
      * @return
      */
     Cartoon queryByCartoonId(Integer cartoonId);
+
+    /**
+     * 更新漫画
+     * @param cartoon
+     * @return
+     */
+    int updateCartoon(Cartoon cartoon);
+
+    /**
+     * 根据漫画名称、类型、星期日查询
+     * @param ctName
+     * @param cyName
+     * @param wkName
+     * @return
+     */
+    Page<List<Cartoon>> queryByCartoonNameAndTypeAndUpdate(@Param("ctName") String ctName,@Param("cyName") String cyName,@Param("wkName") String wkName);
+
 }

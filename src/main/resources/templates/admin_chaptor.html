@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>漫画列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <th:block th:replace="fragment::#head"></th:block>
+    <style>
+        .layui-form-checkbox i {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+        .layui-table{
+            display: block;
+            height: 400px;
+            width: 920px;
+            overflow-y: scroll;
+            overflow-x: scroll;
+        }
+        .layui-table td.td-manage {
+            min-width: 100px;
+        }
+        .sc{
+            padding: 3px 5px;
+            background-color: #00f05d;
+            color: #FFFFFF;
+        }
+        a .sc,.xq {
+            cursor: pointer;
+        }
+        .layui-form{
+            display: inline-block;
+        }
+        #caozuo{
+            width: 150px;
+        }
+        .xq {
+            padding: 3px 5px;
+            background-color: #5FB878;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body class="index">
+<!-- 顶部开始 -->
+<div th:replace="fragment::#top"></div>
+<!-- 顶部结束 -->
+<!-- 中部开始 -->
+<!-- 左侧菜单开始 -->
+<div th:replace="fragment::#nava"></div>
+<!-- 左侧菜单结束 -->
+<!-- 右侧主体开始 -->
+<div class="page-content">
+    <div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="javascript;;">章节管理管理</a>
+            <a href="javascript;;">章节列表</a>
+            <a>
+              <cite>导航元素</cite></a>
+          </span>
+        <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+           onclick="location.reload()" title="刷新">
+            <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+    </div>
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+
+                    <div class="layui-card-header">
+
+                       <!-- <a title="编辑" class="layui-btn layui-btn-danger"  th:data="${chaptor}"
+                           onclick="xadmin.open('发布漫画章节','/admin/publishChaptor?id='+this.getAttribute('data'),600,480)" href="javascript:;">
+                            发布漫画章节
+                        </a>-->
+                        <a title="编辑" class="layui-btn layui-btn-danger"  th:data="${chaptor}"
+                          th:href="@{/admin/publishChaptor/(id=${chaptor})}">
+                            发布漫画章节
+                        </a>
+                        <form class="layui-form layui-col-space5" action="/admin/chaptor/queryByName" method="post">
+                            <div class="layui-inline layui-show-xs-block">
+                                <input type="text" name="cyName" placeholder="请输入漫画类别" autocomplete="off" class="layui-input"></div>
+                            <div class="layui-inline layui-show-xs-block">
+                                <input type="text" name="wkName" placeholder="请输入漫画更新日期" autocomplete="off" class="layui-input"></div>
+                            <div class="layui-inline layui-show-xs-block">
+                                <input type="text" name="ctName" placeholder="请输入漫画名称" autocomplete="off" class="layui-input"></div>
+                            <div class="layui-inline layui-show-xs-block">
+                                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                                    <i class="layui-icon"></i></button>
+                            </div>
+                            <div class="layui-inline layui-show-xs-block">
+                                <a class="layui-btn batchExport"  lay-filter="sreach"  onClick="javaScript:history.go(-1)">
+                                    返回</a>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="layui-card-body">
+                        <table class="layui-table layui-form">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>章节名称</th>
+                                <th>漫画名</th>
+                                <th>点赞量</th>
+                                <th>是否付费</th>
+                                <th>更新日期</th>
+
+                                <th><div id="caozuo">操作</div>  </th>
+
+                            </thead>
+                            <tbody>
+
+                            <tr th:each="chaptor,iterStat:${chaptorList.msg}">
+                                <th th:text="${iterStat.index+1}"></th>
+                                <th th:text="${chaptor.chaptorName}" th:data="${chaptor.id}"></th>
+                                <th th:text="${chaptor.carName}"></th>
+                                <th th:text="${chaptor.zanNum}"></th>
+                                <th th:text="${chaptor.pay==0?'免费':'付费章节'}"></th>
+                                <th th:text="${chaptor.updateTime}"></th>
+
+                                <td class="td-manage">
+
+                                    <a title="编辑"  href="javascript:;">
+
+                                        <i class="layui-icon">&#xe642;</i>
+                                    </a>
+
+                                    <a title="删除" th:data="${chaptor.id}"
+                                       href="javascript:;">
+                                        <i class="layui-icon">&#xe640;</i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--分页-->
+                    <div class="layui-card-body ">
+                        <div class="page">
+                            <div>
+                                <a class="prev" th:href="@{/admin/showChaptor/(id=${chaptor},pageNo=${chaptorList.pageSize}-1,pageSize=10)}">&lt;&lt;</a>
+                                当前是<span class="current" th:text="${chaptorList.pageSize}"></span>页
+                                <a class="next" th:href="@{/admin/showChaptor/(id=${chaptor},pageNo=${chaptorList.pageSize}+1,pageSize=10)}">&gt;&gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content-bg">
+</div>
+<!-- 右侧主体结束 -->
+<!-- 中部结束 -->
+<div th:replace="fragment::#foot"></div>
+</body>
+<script>
+    /*返回上一次点击的页面*/
+    function go()
+    {
+        window.history.go(-1);
+    }
+</script>
+</html>
